@@ -138,4 +138,4 @@ I believe AI is a powerful tool that enables people to build real software, even
 
 ---
 
-*Created by Andrea Maffiotto — built with Claude Code.*
+*Created by Andrea Maffiotto — built with Claude Code and Cursor.*
