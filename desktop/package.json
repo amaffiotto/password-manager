@@ -8,7 +8,8 @@
     "vite:build": "vite build --config vite.config.js",
     "start": "npm run vite:build && electron .",
     "build": "npm run vite:build && electron-builder",
-    "postinstall": "electron-rebuild -f -w better-sqlite3"
+    "postinstall": "electron-rebuild -f -w better-sqlite3",
+    "install-native-host": "node ../desktop/scripts/install-native-host.js"
   },
   "keywords": [],
   "author": "",

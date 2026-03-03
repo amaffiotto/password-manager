@@ -88,4 +88,12 @@ function registerIpcHandlers(ipcMain) {
   });
 }
 
-module.exports = { registerIpcHandlers };
+function isUnlocked() {
+  return currentMasterPassword !== null;
+}
+
+function getCurrentMasterPassword() {
+  return currentMasterPassword;
+}
+
+module.exports = { registerIpcHandlers, isUnlocked, getCurrentMasterPassword };

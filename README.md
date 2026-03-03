@@ -51,7 +51,8 @@ password-manager/
 │       │   ├── database.js     # SQLite operations
 │       │   ├── crypto.js       # AES-256 encryption
 │       │   ├── ipc-handlers.js # UI ↔ backend communication
-│       │   └── native-messaging.js
+│       │   ├── local-server.js # Local HTTP server for extension bridge
+│       │   └── native-messaging.js # Native messaging host for Chrome
 │       └── renderer/           # React UI
 │           ├── components/
 │           │   ├── Login.jsx
@@ -107,6 +108,21 @@ npm install
 npm start
 ```
 
+### Browser Extension Setup
+
+1. Open Chrome/Vivaldi and go to `chrome://extensions/`
+2. Enable **Developer mode** (toggle in the top right)
+3. Click **Load unpacked** and select the `extension/` folder
+4. Copy the extension ID shown on the card
+5. Register the native messaging host:
+
+```bash
+node desktop/scripts/install-native-host.js --extension-id=YOUR_EXTENSION_ID
+```
+
+6. Make sure the desktop app is running and the vault is unlocked
+7. Click the extension icon on any login page to autofill
+
 ## Roadmap
 
 ### Core
@@ -115,20 +131,20 @@ npm start
 - [x] SQLite database with encrypted entries
 - [x] Master password hashing with bcrypt
 - [x] Secure random password generator
-- [ ] Electron app window and IPC setup
-- [ ] React UI (Login, Vault, Add Entry, Settings)
+- [x] Electron app window and IPC setup
+- [x] React UI (Login, Vault, Add Entry, Settings)
 
 ### Browser Extension
 
-- [ ] Manifest V3 extension scaffold
-- [ ] Popup with credentials for current site
-- [ ] Content script for autofill
-- [ ] Native messaging bridge to desktop app
+- [x] Manifest V3 extension scaffold
+- [x] Popup with credentials for current site
+- [x] Content script for autofill
+- [x] Native messaging bridge to desktop app
 
 ### Polish
 
-- [ ] Auto-lock on inactivity
-- [ ] Clipboard auto-clear
+- [x] Auto-lock on inactivity
+- [x] Clipboard auto-clear
 - [ ] Cross-platform build (.exe, .dmg, .AppImage)
 - [ ] Password strength indicator
 

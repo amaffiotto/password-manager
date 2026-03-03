@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self';">
+  <title>Password Manager</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- Status banner (shown when desktop app is disconnected) -->
+  <div id="status-banner" class="banner hidden">
+    <span id="status-text">Connecting to desktop app...</span>
+  </div>
+
+  <div class="header">
+    <img src="../icons/icon48.png" alt="Logo" class="logo">
+    <h1>Password Manager</h1>
+  </div>
+
+  <!-- State: Loading -->
+  <div id="view-loading" class="view">
+    <p class="loading">Connecting...</p>
+  </div>
+
+  <!-- State: Disconnected from desktop app -->
+  <div id="view-disconnected" class="view hidden">
+    <p class="message">Cannot connect to the desktop app.</p>
+    <p class="hint">Make sure the Password Manager desktop app is running.</p>
+    <button id="btn-retry" class="btn btn-primary">Retry</button>
+  </div>
+
+  <!-- State: Vault is locked -->
+  <div id="view-locked" class="view hidden">
+    <p class="message">Vault is locked.</p>
+    <p class="hint">Unlock the vault in the desktop app first.</p>
+  </div>
+
+  <!-- State: No credentials for current site -->
+  <div id="view-empty" class="view hidden">
+    <p class="message">No saved credentials for this site.</p>
+    <p class="hint" id="current-site-hint"></p>
+  </div>
+
+  <!-- State: Credential list for current site -->
+  <div id="view-credentials" class="view hidden">
+    <p class="site-label">Credentials for <strong id="site-name"></strong></p>
+    <ul id="credentials-list" class="credentials-list"></ul>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

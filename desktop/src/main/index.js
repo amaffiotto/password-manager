@@ -1,7 +1,8 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const { initDatabase, closeDatabase } = require('./database');
-const { registerIpcHandlers } = require('./ipc-handlers');
+const { registerIpcHandlers, isUnlocked, getCurrentMasterPassword } = require('./ipc-handlers');
+const { initLocalServer, startLocalServer, stopLocalServer } = require('./local-server');
 const { DB_FILENAME } = require('../../../shared/constants');
 
 let mainWindow = null;
@@ -41,6 +42,25 @@ app.whenReady().then(() => {
   // Register all IPC handlers so the renderer can talk to the backend
   registerIpcHandlers(ipcMain);
 
+  // Start the local HTTP server for the browser extension bridge
+  const { getAllEntries, searchEntries, getDecryptedPassword } = require('./database');
+  initLocalServer({
+    isUnlocked,
+    getAllEntries,
+    searchEntries,
+    getDecryptedPassword: (entryId) => {
+      const masterPassword = getCurrentMasterPassword();
+      if (!masterPassword) throw new Error('Vault is locked');
+      return getDecryptedPassword(entryId, masterPassword);
+    },
+    getEntryUsername: (entryId) => {
+      const entries = getAllEntries();
+      const entry = entries.find((e) => e.id === entryId);
+      return entry ? entry.username : null;
+    },
+  });
+  startLocalServer();
+
   createWindow();
 
   app.on('activate', () => {
@@ -51,6 +71,7 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
+  stopLocalServer();
   closeDatabase();
   if (process.platform !== 'darwin') {
     app.quit();
