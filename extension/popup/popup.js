@@ -2,6 +2,9 @@
 
 const NATIVE_HOST = 'com.passwordmanager.app';
 
+let passwordsVisible = false;
+let currentEntries = [];
+
 const views = {
   loading: document.getElementById('view-loading'),
   disconnected: document.getElementById('view-disconnected'),
@@ -65,16 +68,60 @@ async function autofill(entryId) {
       password: result.password,
     });
 
-    // Close the popup after autofill
     window.close();
   } catch (err) {
     console.error('Autofill failed:', err);
   }
 }
 
+// --- Show/hide all passwords ---
+
+async function togglePasswords() {
+  const btn = document.getElementById('btn-show-passwords');
+
+  if (passwordsVisible) {
+    passwordsVisible = false;
+    btn.textContent = 'Show All';
+    document.querySelectorAll('.credential-password').forEach((el) => {
+      el.className = 'credential-password-dots';
+      el.textContent = '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022';
+    });
+    return;
+  }
+
+  btn.textContent = 'Loading...';
+
+  try {
+    for (const entry of currentEntries) {
+      try {
+        const result = await sendNativeMessage({
+          action: 'get-decrypted-password',
+          entryId: entry.id,
+        });
+        const el = document.querySelector(`[data-pw-id="${entry.id}"]`);
+        if (el) {
+          el.className = 'credential-password';
+          el.textContent = result.password;
+        }
+      } catch {
+        const el = document.querySelector(`[data-pw-id="${entry.id}"]`);
+        if (el) {
+          el.className = 'credential-password';
+          el.textContent = '(failed to decrypt)';
+        }
+      }
+    }
+    passwordsVisible = true;
+    btn.textContent = 'Hide All';
+  } catch {
+    btn.textContent = 'Show All';
+  }
+}
+
 // --- Build the credentials list UI ---
 
 function renderCredentials(entries, hostname) {
+  currentEntries = entries;
   const list = document.getElementById('credentials-list');
   list.innerHTML = '';
 
@@ -85,6 +132,7 @@ function renderCredentials(entries, hostname) {
       <div class="credential-info">
         <div class="credential-site">${escapeHtml(entry.site_name)}</div>
         <div class="credential-user">${escapeHtml(entry.username)}</div>
+        <div class="credential-password-dots" data-pw-id="${entry.id}">\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022</div>
       </div>
       <div class="credential-actions">
         <button class="btn btn-fill" data-id="${entry.id}">Autofill</button>
@@ -93,7 +141,6 @@ function renderCredentials(entries, hostname) {
     list.appendChild(li);
   });
 
-  // Attach click handlers
   list.querySelectorAll('[data-id]').forEach((btn) => {
     btn.addEventListener('click', () => autofill(Number(btn.dataset.id)));
   });
@@ -112,11 +159,11 @@ function escapeHtml(str) {
 
 async function init() {
   showView('loading');
+  passwordsVisible = false;
 
   const hostname = await getCurrentTabHostname();
 
   try {
-    // Ping the desktop app to check connection & vault status
     const status = await sendNativeMessage({ action: 'status' });
 
     if (!status.unlocked) {
@@ -124,7 +171,6 @@ async function init() {
       return;
     }
 
-    // Search for entries matching the current site
     if (!hostname) {
       showView('empty');
       return;
@@ -149,8 +195,9 @@ async function init() {
   }
 }
 
-// Retry button
+// Event listeners
 document.getElementById('btn-retry').addEventListener('click', init);
+document.getElementById('btn-show-passwords').addEventListener('click', togglePasswords);
 
 // Start
 init();

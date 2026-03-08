@@ -419,10 +419,42 @@ body {
   margin-left: 4px;
 }
 
-.col-title { width: 28%; }
-.col-username { width: 25%; }
-.col-url { width: 27%; }
-.col-modified { width: 20%; }
+.col-title { width: 20%; }
+.col-username { width: 16%; }
+.col-password { width: 22%; }
+.col-url { width: 22%; }
+.col-modified { width: 16%; }
+
+.col-password-toggle {
+  font-size: 12px;
+  opacity: 0.6;
+  vertical-align: middle;
+  margin-left: 4px;
+  cursor: pointer;
+}
+.col-password-toggle:hover { opacity: 1; }
+
+.col-password-cell {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  overflow: visible !important;
+  white-space: normal !important;
+}
+
+.vault-password-dots {
+  letter-spacing: 2px;
+  color: var(--text-tertiary);
+}
+
+.vault-password-revealed {
+  word-break: break-all;
+  white-space: normal;
+  background: var(--bg-secondary);
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  max-width: 100%;
+}
 
 /* ===== Detail Panel ===== */
 .detail-panel {
@@ -515,6 +547,9 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 8px 12px;
 }
 
 .detail-password-dots {

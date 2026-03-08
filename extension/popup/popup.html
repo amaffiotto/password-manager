@@ -44,7 +44,10 @@
 
   <!-- State: Credential list for current site -->
   <div id="view-credentials" class="view hidden">
-    <p class="site-label">Credentials for <strong id="site-name"></strong></p>
+    <div class="site-header">
+      <p class="site-label">Credentials for <strong id="site-name"></strong></p>
+      <button id="btn-show-passwords" class="btn btn-show-all" title="Show/hide all passwords">Show All</button>
+    </div>
     <ul id="credentials-list" class="credentials-list"></ul>
   </div>
 
