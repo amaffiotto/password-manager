@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     strategy:
@@ -52,9 +55,17 @@ jobs:
       - name: Install frontend dependencies
         run: npm install
 
-      - name: Build native messaging host
+      - name: Build native messaging host (Unix)
+        if: matrix.platform != 'windows-latest'
         working-directory: src-tauri
         run: cargo build --release --bin password-manager-native-host --target ${{ matrix.target }}
+
+      - name: Build native messaging host (Windows)
+        if: matrix.platform == 'windows-latest'
+        working-directory: src-tauri
+        shell: bash
+        run: |
+          TAURI_SKIP_WINRES=1 cargo build --release --bin password-manager-native-host --target ${{ matrix.target }}
 
       - name: Rename native host with target triple (Unix)
         if: matrix.platform != 'windows-latest'

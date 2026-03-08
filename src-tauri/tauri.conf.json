@@ -1,7 +1,7 @@
 {
   "productName": "Password Manager",
   "version": "1.0.0",
-  "identifier": "com.passwordmanager.app",
+  "identifier": "com.pvault.passwordmanager",
   "build": {
     "beforeDevCommand": "npm run dev",
     "beforeBuildCommand": "npm run build",
