@@ -55,30 +55,6 @@ jobs:
       - name: Install frontend dependencies
         run: npm install
 
-      - name: Build native messaging host (Unix)
-        if: matrix.platform != 'windows-latest'
-        working-directory: src-tauri
-        run: cargo build --release --bin password-manager-native-host --target ${{ matrix.target }}
-
-      - name: Build native messaging host (Windows)
-        if: matrix.platform == 'windows-latest'
-        working-directory: src-tauri
-        shell: bash
-        run: |
-          TAURI_SKIP_WINRES=1 cargo build --release --bin password-manager-native-host --target ${{ matrix.target }}
-
-      - name: Rename native host with target triple (Unix)
-        if: matrix.platform != 'windows-latest'
-        run: |
-          cp src-tauri/target/${{ matrix.target }}/release/password-manager-native-host \
-             src-tauri/target/${{ matrix.target }}/release/password-manager-native-host-${{ matrix.target }}
-
-      - name: Rename native host with target triple (Windows)
-        if: matrix.platform == 'windows-latest'
-        run: |
-          copy src-tauri\target\${{ matrix.target }}\release\password-manager-native-host.exe `
-               src-tauri\target\${{ matrix.target }}\release\password-manager-native-host-${{ matrix.target }}.exe
-
       - name: Build desktop app
         uses: tauri-apps/tauri-action@v0.5
         env:
@@ -90,17 +66,3 @@ jobs:
           releaseDraft: false
           prerelease: false
           args: --target ${{ matrix.target }}
-
-      - name: Upload native host (Unix)
-        if: matrix.platform != 'windows-latest'
-        uses: softprops/action-gh-release@v2
-        with:
-          files: src-tauri/target/${{ matrix.target }}/release/password-manager-native-host-${{ matrix.target }}
-          tag_name: ${{ github.ref_name }}
-
-      - name: Upload native host (Windows)
-        if: matrix.platform == 'windows-latest'
-        uses: softprops/action-gh-release@v2
-        with:
-          files: src-tauri/target/${{ matrix.target }}/release/password-manager-native-host-${{ matrix.target }}.exe
-          tag_name: ${{ github.ref_name }}
