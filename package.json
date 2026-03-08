@@ -1,13 +1,28 @@
 {
   "name": "password-manager",
   "version": "1.0.0",
-  "description": "Cross-platform password manager with browser extension",
+  "description": "Cross-platform password manager with PGP support and browser extension",
   "private": true,
+  "type": "module",
   "scripts": {
-    "desktop": "cd desktop && npm start",
-    "desktop:build": "cd desktop && npm run build"
+    "dev": "vite",
+    "build": "vite build",
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev -- --features devtools",
+    "tauri:build": "tauri build",
+    "tauri:build:debug": "tauri build --debug",
+    "cli:build": "cd src-tauri && cargo build --release --bin pvault",
+    "native-host:build": "bash scripts/build-sidecar.sh",
+    "extension:install": "bash extension/install-native-host.sh"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "@tauri-apps/api": "^2.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.0",
+    "@tauri-apps/cli": "^2.0.0",
+    "vite": "^6.0.0"
+  }
 }

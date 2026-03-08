@@ -2,7 +2,8 @@
   "manifest_version": 3,
   "name": "Password Manager",
   "version": "1.0.0",
-  "description": "Autofill credentials from your local Password Manager vault",
+  "description": "Autofill credentials from your local Password Manager vault. Requires the Password Manager desktop app.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1pSc9hXbV+C/Enj142flRu7oE5C0sCWEVom9zj70NyqWN6JxmgNnwF6SgeNJcMOMdJDhVFAvPbTPimXKNqrn8u5qH93MHedPrDdWWhUqc3CTpmgmzHctgLvLLLvRrZOr8Mi5odChXNw0t7x3XGIrj2knpurwbYNyLniUfmxlDN/3xYyfZIt8Z5f0EAVRs+LEplXipHo0epEgZDQiS4ng0OUVRaxJ215v3zLXJS2p1FFlppvVACd52chqM/f99KKkEzhvAu3ZH0gLYXttisofJ6ERVg2xdQotI1MC93MZZ1QqyIXKcNFHgZ4XI+cvovo7qzdn9ExVWdY6A8rN5rwiWQIDAQAB",
   "permissions": ["activeTab", "nativeMessaging", "storage"],
   "action": {
     "default_popup": "popup/popup.html",

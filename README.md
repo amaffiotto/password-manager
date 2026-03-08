@@ -1,157 +1,117 @@
 # Password Manager
 
-A cross-platform password manager with a Chrome/Vivaldi browser extension, built with Electron + React and the help of AI.
+A local-first, cross-platform password manager with PGP support and browser extension autofill.
 
-![Status](https://img.shields.io/badge/Status-Work%20In%20Progress-yellow)
-![Node](https://img.shields.io/badge/Node.js-18+-green)
-![Electron](https://img.shields.io/badge/GUI-Electron-47848F)
+![Status](https://img.shields.io/badge/Status-Ready-green)
+![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Linux%20%7C%20Windows-blue)
 ![Encryption](https://img.shields.io/badge/Encryption-AES--256--GCM-red)
 
-## What is it?
+## Install
 
-A local-first password manager that keeps your credentials safe on your own machine — no cloud, no subscriptions. It consists of two parts:
+Download the latest release for your platform:
 
-- **Desktop App** — Electron-based GUI that runs on Linux, Mac, and Windows
-- **Browser Extension** — Chrome/Vivaldi extension for autofilling login forms
+| Platform | File |
+|----------|------|
+| **macOS** | `Password Manager_x.x.x_aarch64.dmg` or `_x64.dmg` |
+| **Windows** | `Password Manager_x.x.x_x64-setup.exe` |
+| **Linux** | `Password Manager_x.x.x_amd64.AppImage` |
 
-All passwords are encrypted with **AES-256-GCM** and protected by a master password. Nothing ever leaves your computer.
+> [Download from Releases](https://github.com/amaffiotto/password-manager/releases)
 
-## How I built it
+### Browser Extension (optional)
 
-| Component | Technology |
-|-----------|------------|
-| **Desktop App** | Electron |
-| **UI** | React |
-| **Backend** | Node.js |
-| **Database** | SQLite (local) |
-| **Encryption** | AES-256-GCM + PBKDF2 |
-| **Password Hashing** | bcrypt |
-| **Browser Extension** | Manifest V3 |
-| **AI Assistance** | Claude Code |
+The extension lets you autofill login forms from your vault. It requires the desktop app to be running.
+
+1. Install and launch the desktop app at least once
+2. Install the extension from the Chrome Web Store *(or load `extension/` as unpacked in developer mode)*
+3. That's it — the desktop app auto-registers everything the extension needs
+
+Works with **Chrome, Brave, Edge, Chromium, and Vivaldi**.
+
+## What It Does
+
+- **Password Vault** — Store, search, edit, and delete credentials
+- **Password Generator** — Cryptographically secure, configurable length
+- **TOTP / 2FA** — Set up and generate time-based OTP codes with QR support
+- **PGP Keys** — Generate Ed25519 or RSA-4096 key pairs; encrypt, decrypt, sign, verify
+- **Browser Autofill** — Fill login forms from the extension popup
+- **Import / Export** — JSON and CSV
+- **CLI Tool** — Interactive terminal access to your vault (`pvault`)
+- **Appearance** — Customizable accent color, background color, UI opacity
+- **Auto-Lock** — Configurable inactivity timeout
+- **Clipboard Auto-Clear** — Clears copied passwords after a set time
 
 ## Security
 
-| What | How |
-|------|-----|
-| Master password | Never stored in plaintext — only its bcrypt hash |
-| Saved passwords | Encrypted with AES-256-GCM, decrypted only in RAM |
-| Encryption key | Derived from master password via PBKDF2 (100,000 iterations) |
-| Clipboard | Auto-clears after 30 seconds |
-| Database | Local file on your PC, no cloud sync |
-| Auto-lock | App locks after 5 minutes of inactivity |
+| | |
+|---|---|
+| Passwords | Encrypted with AES-256-GCM, decrypted only in RAM |
+| Master password | Hashed with bcrypt (12 rounds), never stored in plaintext |
+| Encryption key | Derived via PBKDF2-HMAC-SHA512 (100k iterations) |
+| PGP private keys | Encrypted at rest + passphrase-protected |
+| Extension bridge | Bound to 127.0.0.1 with bearer token auth |
+| Database | Local SQLite file with owner-only permissions |
+| Memory | Master password zeroized on lock |
 
-## Project Structure
+## Architecture
 
-```
-password-manager/
-├── desktop/                    # Electron desktop app
-│   └── src/
-│       ├── main/               # Main process
-│       │   ├── index.js        # App entry point
-│       │   ├── database.js     # SQLite operations
-│       │   ├── crypto.js       # AES-256 encryption
-│       │   ├── ipc-handlers.js # UI ↔ backend communication
-│       │   ├── local-server.js # Local HTTP server for extension bridge
-│       │   └── native-messaging.js # Native messaging host for Chrome
-│       └── renderer/           # React UI
-│           ├── components/
-│           │   ├── Login.jsx
-│           │   ├── Vault.jsx
-│           │   ├── AddEntry.jsx
-│           │   └── Settings.jsx
-│           ├── App.jsx
-│           └── index.html
-├── extension/                  # Chrome/Vivaldi extension
-│   ├── manifest.json
-│   ├── popup/
-│   ├── content/
-│   ├── background/
-│   └── icons/
-└── shared/                     # Shared utilities
-    ├── constants.js
-    └── validators.js
-```
-
-## How to try it
-
-### Prerequisites
-
-- **Node.js 18+** — [Download](https://nodejs.org/)
-- **Git** — [Download](https://git-scm.com/)
-
-### macOS / Linux
-
-```bash
-# Clone the repo
-git clone https://github.com/amaffiotto/password-manager.git
-cd password-manager
-
-# Install dependencies
-cd desktop && npm install && cd ..
-
-# Run the app
-cd desktop && npm start
-```
-
-### Windows
-
-```powershell
-# Clone the repo
-git clone https://github.com/amaffiotto/password-manager.git
-cd password-manager
-
-# Install dependencies
-cd desktop
-npm install
-
-# Run the app
-npm start
-```
-
-### Browser Extension Setup
-
-1. Open Chrome/Vivaldi and go to `chrome://extensions/`
-2. Enable **Developer mode** (toggle in the top right)
-3. Click **Load unpacked** and select the `extension/` folder
-4. Copy the extension ID shown on the card
-5. Register the native messaging host:
-
-```bash
-node desktop/scripts/install-native-host.js --extension-id=YOUR_EXTENSION_ID
-```
-
-6. Make sure the desktop app is running and the vault is unlocked
-7. Click the extension icon on any login page to autofill
-
-## Roadmap
-
-### Core
-
-- [x] AES-256-GCM encryption module
-- [x] SQLite database with encrypted entries
-- [x] Master password hashing with bcrypt
-- [x] Secure random password generator
-- [x] Electron app window and IPC setup
-- [x] React UI (Login, Vault, Add Entry, Settings)
-
-### Browser Extension
-
-- [x] Manifest V3 extension scaffold
-- [x] Popup with credentials for current site
-- [x] Content script for autofill
-- [x] Native messaging bridge to desktop app
-
-### Polish
-
-- [x] Auto-lock on inactivity
-- [x] Clipboard auto-clear
-- [ ] Cross-platform build (.exe, .dmg, .AppImage)
-- [ ] Password strength indicator
-
-## Why?
-
-I believe AI is a powerful tool that enables people to build real software, even without years of coding experience. This project is part of my journey building useful applications with the help of AI.
+| Component | Technology |
+|-----------|------------|
+| Desktop Framework | Tauri v2 |
+| Backend | Rust |
+| Frontend | React 19 + Vite |
+| Database | SQLite (WAL mode) |
+| Browser Extension | Manifest V3 + Native Messaging |
 
 ---
 
-*Created by Andrea Maffiotto — built with Claude Code and Cursor.*
+## Development
+
+*Everything below is for building from source — not needed for end users.*
+
+### Prerequisites
+
+- [Rust](https://rustup.rs/)
+- [Node.js 18+](https://nodejs.org/)
+
+### Run Locally
+
+```bash
+git clone https://github.com/amaffiotto/password-manager.git
+cd password-manager
+npm install
+npm run tauri:dev
+```
+
+### Build Installers
+
+```bash
+# Desktop app (.dmg / .exe / .AppImage)
+npm run tauri:build
+
+# CLI tool
+npm run cli:build
+
+# Native messaging host (for extension dev)
+npm run native-host:build
+```
+
+### Extension Development
+
+1. Run `npm run native-host:build`
+2. Start the desktop app with `npm run tauri:dev`
+3. Go to `chrome://extensions`, enable Developer mode, click **Load unpacked**, select `extension/`
+4. If your extension ID differs from the pinned one, set it in **Settings > Browser Extension**
+
+### Project Structure
+
+```
+src-tauri/src/          Rust backend (encryption, database, server, TOTP, PGP)
+src/                    React frontend (components, API layer, styles)
+extension/              Browser extension (Manifest V3, popup, content script)
+scripts/                Build helpers
+```
+
+---
+
+*Created by Andrea Maffiotto.*

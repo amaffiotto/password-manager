@@ -1,5 +1,35 @@
+# Dependencies
 node_modules/
+
+# Build output
 dist/
-.env
+src-tauri/target/
+src-tauri/gen/schemas/
+
+# Database files (contain encrypted vault data)
 *.db
+*.db-wal
+*.db-shm
+
+# Environment / Secrets
+.env
+.env.*
+
+# Server port file (runtime artifact)
+.server-port
+
+# OS files
 .DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Rust
+**/*.rs.bk
+
+# Logs
+*.log

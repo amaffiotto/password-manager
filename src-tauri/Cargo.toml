@@ -1,0 +1,46 @@
+[package]
+name = "password-manager"
+version = "1.0.0"
+edition = "2021"
+default-run = "password-manager"
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rusqlite = { version = "0.32", features = ["bundled"] }
+aes-gcm = "0.10"
+pbkdf2 = "0.12"
+sha2 = "0.10"
+hmac = "0.12"
+bcrypt = "0.16"
+rand = "0.8"
+hex = "0.4"
+arboard = "3"
+zeroize = { version = "1", features = ["derive"] }
+tokio = { version = "1", features = ["full"] }
+axum = "0.7"
+csv = "1"
+dirs = "6"
+pgp = "0.14"
+smallvec = "1"
+rpassword = "7"
+totp-rs = { version = "5", features = ["otpauth", "gen_secret"] }
+qrcode = "0.14"
+data-encoding = "2"
+
+[features]
+devtools = ["tauri/devtools"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[[bin]]
+name = "password-manager-native-host"
+path = "src/bin/native-host.rs"
+
+[[bin]]
+name = "pvault"
+path = "src/bin/cli.rs"
