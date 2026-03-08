@@ -68,7 +68,7 @@ git push && git push --tags
 
 ### 7. Wait
 
-Go to https://github.com/amaffiotto/password-manager/actions and watch the build.
+Go to https://github.com/amaffiotto/Pvault-password-manager/actions and watch the build.
 Takes about 10-15 minutes. Four machines build in parallel:
 - macOS ARM (Apple Silicon .dmg)
 - macOS Intel (.dmg)
@@ -78,7 +78,7 @@ Takes about 10-15 minutes. Four machines build in parallel:
 ### 8. Done
 
 The Release page is automatically created at:
-https://github.com/amaffiotto/password-manager/releases/tag/v1.1.0
+https://github.com/amaffiotto/Pvault-password-manager/releases/tag/v1.1.0
 
 All installers are attached. Users can download from there.
 

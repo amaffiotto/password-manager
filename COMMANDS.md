@@ -1,4 +1,4 @@
-# Password Manager — Commands Reference
+# Pvault — Commands Reference
 
 ## GUI Commands
 

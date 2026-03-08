@@ -1,5 +1,5 @@
 {
-  "productName": "Password Manager",
+  "productName": "Pvault",
   "version": "1.0.0",
   "identifier": "com.pvault.passwordmanager",
   "build": {
@@ -11,7 +11,7 @@
   "app": {
     "windows": [
       {
-        "title": "Password Manager",
+        "title": "Pvault",
         "width": 1100,
         "height": 700,
         "minWidth": 800,

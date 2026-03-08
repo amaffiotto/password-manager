@@ -1,10 +1,10 @@
-# AI Context — Password Manager
+# AI Context — Pvault
 
 Read this file first. It tells you everything you need to know about this project.
 
 ## What this is
 
-A local-first password manager. Desktop app + browser extension + CLI tool.
+Pvault — a local-first password manager. Desktop app + browser extension + CLI tool.
 No cloud, no accounts, no subscriptions. Everything stays on the user's machine.
 
 ## Tech stack

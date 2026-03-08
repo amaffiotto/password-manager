@@ -75,7 +75,7 @@ export default function Login({ onUnlock, theme, toggleTheme }) {
         {theme === 'dark' ? '\u2600' : '\u263E'}
       </button>
 
-      <h1>Password Manager</h1>
+      <h1>Pvault</h1>
       <p>{isFirstTime ? 'Create your master password' : 'Enter your master password'}</p>
 
       <form className="login-form" onSubmit={handleUnlock}>

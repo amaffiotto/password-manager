@@ -1,4 +1,4 @@
-# Password Manager
+# Pvault
 
 A local-first, cross-platform password manager with PGP support and browser extension autofill.
 
@@ -12,11 +12,11 @@ Download the latest release for your platform:
 
 | Platform | File |
 |----------|------|
-| **macOS** | `Password Manager_x.x.x_aarch64.dmg` or `_x64.dmg` |
-| **Windows** | `Password Manager_x.x.x_x64-setup.exe` |
-| **Linux** | `Password Manager_x.x.x_amd64.AppImage` |
+| **macOS** | `Pvault_x.x.x_aarch64.dmg` or `_x64.dmg` |
+| **Windows** | `Pvault_x.x.x_x64-setup.exe` |
+| **Linux** | `Pvault_x.x.x_amd64.AppImage` |
 
-> [Download from Releases](https://github.com/amaffiotto/password-manager/releases)
+> [Download from Releases](https://github.com/amaffiotto/Pvault-password-manager/releases)
 
 ### Browser Extension (optional)
 
@@ -77,8 +77,8 @@ Works with **Chrome, Brave, Edge, Chromium, and Vivaldi**.
 ### Run Locally
 
 ```bash
-git clone https://github.com/amaffiotto/password-manager.git
-cd password-manager
+git clone https://github.com/amaffiotto/Pvault-password-manager.git
+cd Pvault-password-manager
 npm install
 npm run tauri:dev
 ```

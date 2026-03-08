@@ -1,4 +1,4 @@
-/* popup.js — Popup logic for the Password Manager extension */
+/* popup.js — Popup logic for the Pvault extension */
 
 const NATIVE_HOST = 'com.passwordmanager.app';
 
